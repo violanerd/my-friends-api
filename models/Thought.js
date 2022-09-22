@@ -1,4 +1,5 @@
 const { Schema, model, Types } = require('mongoose');
+const dateFormat = require('../utils/formatDate');
 
 const ReactionSchema = new Schema({
     reactionId: {
@@ -18,7 +19,7 @@ const ReactionSchema = new Schema({
     createdAt: {
         type: String,
         default: Date.now,
-        //custom get 
+        get: (createdAtVal) => dateFormat(createdAtVal) 
     }
 })
 const ThoughtSchema = new Schema({
@@ -31,13 +32,21 @@ const ThoughtSchema = new Schema({
     createdAt: {
         type: String,
         default: Date.now,
-        //custom get 
+        get: (createdAtVal) => dateFormat(createdAtVal)
     },
     username: {
         type: String,
         required: true
     },
     reactions: [ReactionSchema]
+},
+{
+    toJSON: {
+        virtuals: true,
+        getters: true
+    },
+    // prevents virtuals from creating duplicate of _id as `id`
+    id: false
 })
 
 // reaction Count virtual

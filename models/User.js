@@ -1,6 +1,9 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 const UserSchema = new Schema({
+    _id: {
+        type: Schema.Types.ObjectId,
+    },
     username: {
         type: String,
         unique: true, // check the syntax here
@@ -13,14 +16,26 @@ const UserSchema = new Schema({
         required: "Please enter an email address",
         match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
     },
-    thoughts: [], // make sure brackets are correct here
-    friends: [], // this is a self reference..... ???
+    thoughts: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Thought'
+        }
+    ], 
+    friends: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+        }
+    ], // this is a self reference..... ???
 
 },
 {
     toJSON: {
         vitruals: true
-    }
+    },
+    // prevents virtuals from creating duplicate of _id as `id`
+    id: false
 })
 UserSchema.virtual('friendCount').get(function(){
     return this.friends.length;
