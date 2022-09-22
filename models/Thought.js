@@ -54,4 +54,18 @@ ThoughtSchema.virtual('reactionCount').get(function(){
     return this.reactions.length;
 })
 const Thought = model('Thought', ThoughtSchema);
+
+const handleError = (err) => console.error(err);
+Thought.create({
+    thoughtText: "This is a test",
+    username: "bob",
+    reactions: [
+        {
+            reactionBody: 'uggggghh',
+            username: 'bob'
+        }
+    ]
+},
+(err) => (err ? handleError(err) : console.log('Created new document')));
+
 module.exports = Thought;

@@ -14,7 +14,7 @@ const UserSchema = new Schema({
         type: String,
         unique: true,
         required: "Please enter an email address",
-        match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/
+        match: /.+\@.+\..+/
     },
     thoughts: [
         {
@@ -42,4 +42,14 @@ UserSchema.virtual('friendCount').get(function(){
 })
 
 const User = model('User', UserSchema);
+
+// testing purposes only
+const handleError = (err) => console.error(err);
+User.create({
+    _id: new Types.ObjectId,
+    username: "Bob",
+    email: 'Bob@me.com'
+},
+(err) => (err ? handleError(err) : console.log('Created new document')));
+
 module.exports = User;
