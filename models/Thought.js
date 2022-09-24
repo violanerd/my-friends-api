@@ -18,8 +18,8 @@ const ReactionSchema = new Schema({
     },
     createdAt: {
         type: String,
-        default: Date.now,
-        get: (createdAtVal) => dateFormat(createdAtVal) 
+        default: new Date(),
+        //get: (createdAtVal) => dateFormat(createdAtVal) 
     }
 })
 const ThoughtSchema = new Schema({
@@ -31,8 +31,8 @@ const ThoughtSchema = new Schema({
     },
     createdAt: {
         type: String,
-        default: Date.now,
-        get: (createdAtVal) => dateFormat(createdAtVal)
+        default: new Date(),
+        //get: (createdAtVal) => dateFormat(createdAtVal)
     },
     username: {
         type: String,
@@ -43,7 +43,7 @@ const ThoughtSchema = new Schema({
 {
     toJSON: {
         virtuals: true,
-        getters: true
+        //getters: true
     },
     // prevents virtuals from creating duplicate of _id as `id`
     id: false
@@ -55,17 +55,5 @@ ThoughtSchema.virtual('reactionCount').get(function(){
 })
 const Thought = model('Thought', ThoughtSchema);
 
-const handleError = (err) => console.error(err);
-Thought.create({
-    thoughtText: "This is a test",
-    username: "bob",
-    reactions: [
-        {
-            reactionBody: 'uggggghh',
-            username: 'bob'
-        }
-    ]
-},
-(err) => (err ? handleError(err) : console.log('Created new document')));
 
 module.exports = Thought;
