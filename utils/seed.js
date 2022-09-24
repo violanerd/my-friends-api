@@ -19,15 +19,15 @@ User.create({
 },
 (err) => (err ? handleError(err) : console.log('Created new document')));
 
-Thought.create({
-    thoughtText: "This is a test",
-    username: "bob",
-    reactions: [
-        {
-            reactionBody: 'uggggghh',
-            username: 'bob'
-        }
-    ]
-},
-(err) => (err ? handleError(err) : console.log('Created new document')));
+// Thought.create({
+//     thoughtText: "This is a test",
+//     username: "bob",
+//     reactions: [
+//         {
+//             reactionBody: 'uggggghh',
+//             username: 'bob'
+//         }
+//     ]
+// },
+// (err) => (err ? handleError(err) : console.log('Created new document')));
 process.exit(0);

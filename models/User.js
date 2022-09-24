@@ -1,9 +1,9 @@
 const { Schema, model, Types } = require('mongoose');
 
 const UserSchema = new Schema({
-    _id: {
-        type: Schema.Types.ObjectId,
-    },
+    // _id: {
+    //     type: Schema.Types.ObjectId,
+    // },
     username: {
         type: String,
         unique: true, // check the syntax here

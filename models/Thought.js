@@ -18,9 +18,16 @@ const ReactionSchema = new Schema({
     },
     createdAt: {
         type: String,
-        default: new Date(),
-        //get: (createdAtVal) => dateFormat(createdAtVal) 
+        default: Date,
+        get: (createdAtVal) => dateFormat(createdAtVal) 
     }
+},
+{
+    toJSON: {
+        getters: true
+    },
+    // prevents virtuals from creating duplicate of _id as `id`
+    id: false
 })
 const ThoughtSchema = new Schema({
     thoughtText: {
@@ -31,8 +38,8 @@ const ThoughtSchema = new Schema({
     },
     createdAt: {
         type: String,
-        default: new Date(),
-        //get: (createdAtVal) => dateFormat(createdAtVal)
+        default: Date,
+        get: (createdAtVal) => dateFormat(createdAtVal)
     },
     username: {
         type: String,
@@ -43,7 +50,7 @@ const ThoughtSchema = new Schema({
 {
     toJSON: {
         virtuals: true,
-        //getters: true
+        getters: true
     },
     // prevents virtuals from creating duplicate of _id as `id`
     id: false
