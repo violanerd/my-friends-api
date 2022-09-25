@@ -50,13 +50,11 @@ const userController = {
     },
     deleteUser({params}, res){
         User.findOneAndDelete({ _id: params.id})
-        .then(user => {
-            if (!user){
-                res.status(404).json({ message: "No user found"})
-                return
-            }
-            Thought.deleteMany({ _id: { $in: user.thoughts}})
-        })   
+        .then((user) => 
+            !user
+                ? res.status(404).json({ message: "No user found"})
+                : Thought.deleteMany({ _id: { $in: user.thoughts}})
+        )  
         .then(() => res.json({message: "User and thoughts successfully deleted!"}))
         .catch(err => {
             res.status(400).json(err)

@@ -11,14 +11,14 @@ connection.once('open', async () => {
     await Thought.deleteMany({});
 })
 
-const handleError = (err) => console.error(err);
+// const handleError = (err) => console.error(err);
 
-User.create({
-    _id: new Types.ObjectId,
-    username: "Bob",
-    email: 'Bob@me.com'
-},
-(err) => (err ? handleError(err) : console.log('Created new document')));
+// User.create({
+//     _id: new Types.ObjectId,
+//     username: "Bob",
+//     email: 'Bob@me.com'
+// },
+// (err) => (err ? handleError(err) : console.log('Created new document')));
 
 // Thought.create({
 //     thoughtText: "This is a test",
