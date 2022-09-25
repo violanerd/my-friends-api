@@ -37,6 +37,70 @@ const thoughtController = {
                 res.json(dbUserData)
             })
         .catch(err => res.status(400).json(err))
+    },
+    updateThought({params, body}, res){
+        Thought.findOneAndUpdate(
+            {_id: params.thoughtId},
+            body,
+            {new: true, runValidators: true}
+        )
+        .then(dbThoughtData => {
+            if (!dbThoughtData){
+                res.status(404).json({ message: "No thoughts found"})
+                return
+            }
+            res.json(dbThoughtData)
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        })
+    },
+    deleteThought({params}, res){
+        Thought.findOneAndDelete({ _id: params.thoughtId})
+        .then(dbThoughtData => {
+            if (!dbThoughtData){
+                res.status(404).json({ message: "No thoughts found"})
+                return
+            }
+            res.json({message: "Thought successfully deleted!"})
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        })
+    },
+    createReaction({ params, body }, res){
+        Thought.findOneAndUpdate(
+            {_id: params.thoughtId},
+            { $push:{reactions: body}},
+            {new: true}
+        )
+        .then(dbThoughtData => {
+            if (!dbThoughtData){
+                res.status(404).json({ message: "No thoughts found"})
+                return
+            }
+            res.json(dbThoughtData)
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        })
+    },
+    deleteReaction({params, body }, res){
+        Thought.findOneAndUpdate(
+            {_id: params.thoughtId},
+            { $pull: {reactions: body}},
+            {new: true}
+        )
+        .then(dbThoughtData => {
+            if (!dbThoughtData){
+                res.status(404).json({ message: "No thoughts found"})
+                return
+            }
+            res.json(dbThoughtData)
+        })
+        .catch(err => {
+            res.status(400).json(err)
+        })
     }
 }
 
