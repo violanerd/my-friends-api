@@ -1,3 +1,5 @@
+// testing purposes only
+
 const {User, Thought} = require("../models");
 const connection = require('../config/connection');
 const { Types } = require('mongoose');
@@ -8,8 +10,7 @@ connection.once('open', async () => {
     await User.deleteMany({});
     await Thought.deleteMany({});
 })
-// testing purposes only
-// creating 1 user and 5 thoughts??? 
+
 const handleError = (err) => console.error(err);
 
 User.create({

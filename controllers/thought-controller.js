@@ -23,7 +23,7 @@ const thoughtController = {
     createThought({ body },res){
         Thought.create(body)
             .then(({_id}) => {
-                return User.findOneAndUpdate(
+               return User.findOneAndUpdate(
                     {_id: body.userId},
                     {$push: { thoughts: _id}},
                     {new: true}
@@ -56,13 +56,21 @@ const thoughtController = {
         })
     },
     deleteThought({params}, res){
-        Thought.findOneAndDelete({ _id: params.thoughtId})
-        .then(dbThoughtData => {
-            if (!dbThoughtData){
-                res.status(404).json({ message: "No thoughts found"})
+        Thought.findOneAndRemove({ _id: params.thoughtId})
+        .then((dbThoughtData) => 
+            !dbThoughtData
+                ? res.status(404).json({ message: "No thoughts found"})
+                : User.findOneAndUpdate(
+                    {thoughts: params.thoughtId},
+                    {$pull: {thoughts: params.thoughtId }},
+                    {new: true}
+                    ))
+        .then(user => {
+            if (!user){
+                res.status(404).json({ message: "Thought deleted but no user found"})
                 return
             }
-            res.json({message: "Thought successfully deleted!"})
+            res.json({message: "Thought deleted and removed from user"})
         })
         .catch(err => {
             res.status(400).json(err)
@@ -72,7 +80,7 @@ const thoughtController = {
         Thought.findOneAndUpdate(
             {_id: params.thoughtId},
             { $push:{reactions: body}},
-            {new: true}
+            {new: true, runValidators: true}
         )
         .then(dbThoughtData => {
             if (!dbThoughtData){
@@ -85,10 +93,10 @@ const thoughtController = {
             res.status(400).json(err)
         })
     },
-    deleteReaction({params, body }, res){
+    deleteReaction({params }, res){
         Thought.findOneAndUpdate(
             {_id: params.thoughtId},
-            { $pull: {reactions: body}},
+            { $pull: {reactions: {reactionId: params.reactionId}}},
             {new: true}
         )
         .then(dbThoughtData => {

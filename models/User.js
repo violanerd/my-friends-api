@@ -1,9 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
 
 const UserSchema = new Schema({
-    // _id: {
-    //     type: Schema.Types.ObjectId,
-    // },
     username: {
         type: String,
         unique: true,
@@ -27,17 +24,19 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
         }
-    ], // this is a self reference..... ???
+    ],
 
 },
 {
     toJSON: {
-        vitruals: true
+        virtuals: true
     },
-    // prevents virtuals from creating duplicate of _id as `id`
     id: false
 })
+
+// friend count virtual
 UserSchema.virtual('friendCount').get(function(){
+    
     return this.friends.length;
 })
 
