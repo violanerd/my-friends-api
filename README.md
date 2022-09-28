@@ -17,7 +17,7 @@ A social network api built with mongoDb, mongoose, and express.
 ## Usage
 Routes are tested with Insomnia. 
 
-Watch a demo of the app here: 
+Watch a demo of the app here: https://watch.screencastify.com/v/1shP155gnS4mZMWekD2m
 
 ## Questions
 
